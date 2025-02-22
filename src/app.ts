@@ -1,12 +1,19 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
-import notFound from "./middlewares/not-found.js";
+import { OpenAPIHono } from '@hono/zod-openapi'
+import notFound from './middlewares/not-found.js'
+import onError from './middlewares/on-error.js'
 
-const app = new OpenAPIHono();
+const app = new OpenAPIHono()
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
+app.get('/', (c) => {
+  return c.text('Hello Hono!')
+})
 
-app.notFound(notFound);
+app.get('/error', (c) => {
+  c.status(422)
+  throw new Error('Oh no!')
+})
 
-export default app;
+app.notFound(notFound)
+app.onError(onError)
+
+export default app
