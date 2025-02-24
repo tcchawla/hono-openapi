@@ -1,25 +1,22 @@
 import { createRouter } from '@/lib/create-app.js'
+import jsonContent from '@/lib/json-content.js'
 import { createRoute } from '@hono/zod-openapi'
-import { z } from 'zod'
+import * as HttpStatusCodes from '../http-status-codes.js'
+import createMessageObjectSchema from '@/schemas/create-message-object.js'
 
 const router = createRouter()
   .openapi(createRoute({
+    tags: ['Index'],
     method: 'get',
     path: '/',
     responses: {
-      200: {
-        content: {
-          'application/json': {
-            schema: z.object({
-              message: z.string(),
-            }),
-          },
-        },
-        description: 'OpenAPI Index',
-      },
+      [HttpStatusCodes.OK]: jsonContent(
+        createMessageObjectSchema("Index Route"),
+        'Hello, OpenAPI!',
+      ),
     },
   }), (c) => {
-    return c.json({ message: 'Hello, OpenAPI!' }, 200)
+    return c.json({ message: 'Hello, OpenAPI!' }, HttpStatusCodes.OK)
   })
 
 export default router

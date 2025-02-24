@@ -1,4 +1,5 @@
 import type { AppBinding } from '@/lib/types.js'
+import defaultHook from '@/middlewares/default-hook.js'
 
 import notFound from '@/middlewares/not-found.js'
 
@@ -10,6 +11,7 @@ import { OpenAPIHono } from '@hono/zod-openapi'
 export function createRouter() {
   return new OpenAPIHono<AppBinding>({
     strict: false,
+    defaultHook,
   })
 }
 
