@@ -7,10 +7,14 @@ import onError from '@/middlewares/on-error.js'
 import { pinoLogger } from '@/pino-logger.js'
 import { OpenAPIHono } from '@hono/zod-openapi'
 
-export default function createApp() {
-  const app = new OpenAPIHono<AppBinding>({
+export function createRouter() {
+  return new OpenAPIHono<AppBinding>({
     strict: false,
   })
+}
+
+export default function createApp() {
+  const app = createRouter()
 
   app.use(pinoLogger())
 
